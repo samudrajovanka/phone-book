@@ -47,4 +47,5 @@ const getFontWeight = (props: TextStyleProps) => {
 export const TextStyle = styled.p<TextStyleProps>`
   font-size: ${getFontSize};
   font-weight: ${getFontWeight};
+  color: ${getColor};
 `;
