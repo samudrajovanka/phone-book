@@ -86,7 +86,7 @@ const RegularContactList = () => {
       <Text fontWeight="medium">Regular Contact</Text>
 
       <ContactListContainer>
-        {contactsCtx.regularContacts.loading ? (
+        {contactsCtx.regularContacts.loading && contactsCtx.regularContacts.fetchCount === 0 ? (
           <>
             {Array.from(Array(4).keys()).map((_, index) => (
               <SkeletonContact key={index} />
@@ -94,7 +94,7 @@ const RegularContactList = () => {
           </>
         ) : null}
 
-        {!contactsCtx.regularContacts.loading ? (
+        {!contactsCtx.regularContacts.loading || contactsCtx.regularContacts.fetchCount > 0 ? (
           <>
             {regulatContactsLength ? (
               <>

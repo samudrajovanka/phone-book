@@ -26,7 +26,8 @@ const ContactsContext = createContext<ContactsContextValue>({} as ContactsContex
 
 const DEFAULT_CONTACTS_RESULT: ContactsResult = {
   data: undefined,
-  loading: true
+  loading: true,
+  fetchCount: 0
 };
 
 const ContactsProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
@@ -92,7 +93,8 @@ const ContactsProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     setFavoriteContactsResult((prev) => ({
       ...prev,
       data,
-      loading: false
+      loading: false,
+      fetchCount: prev.fetchCount + 1
     }));
   }, [favoriteContacts]);
 
@@ -118,7 +120,8 @@ const ContactsProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     setRegularContactsResult((prev) => ({
       ...prev,
       data,
-      loading: false
+      loading: false,
+      fetchCount: prev.fetchCount + 1
     }));
   }, [regularContacts]);
 
@@ -136,7 +139,8 @@ const ContactsProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     setContactsResult((prev) => ({
       ...prev,
       data,
-      loading: false
+      loading: false,
+      fetchCount: prev.fetchCount + 1
     }));
   }, [contacts]);
 
