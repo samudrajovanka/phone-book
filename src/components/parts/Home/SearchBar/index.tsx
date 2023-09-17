@@ -1,6 +1,11 @@
 'use client';
 
-import { useState, useCallback, type ChangeEvent } from 'react';
+import {
+  useState,
+  useEffect,
+  useCallback,
+  type ChangeEvent
+} from 'react';
 
 import { useForm } from 'react-hook-form';
 
@@ -23,6 +28,14 @@ const SearchBar = () => {
     register,
     handleSubmit
   } = useForm<SearchForm>();
+
+  useEffect(() => {
+    return () => {
+      searchContactCtx.setIsSearching(false);
+      searchContactCtx.setQuery({ name: '' });
+    }
+  }, []);
+  
 
   const search = useCallback(async () => {
     searchContactCtx.setQuery({ name });
