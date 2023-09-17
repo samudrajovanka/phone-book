@@ -29,7 +29,7 @@ const FavoriteContactList = () => {
 
   return (
     <div>
-      <Text fontWeight="medium">Favorite Contact</Text>
+      <Text as="h2" fontWeight="medium">Favorite Contact</Text>
 
       <ContactListContainer>
         {contactsCtx.favoriteContacts.data?.contact.map((contact) => (

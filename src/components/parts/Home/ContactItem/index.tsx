@@ -7,7 +7,12 @@ import { useMutation } from '@apollo/client';
 import StarIcon from '@/assets/icons/star.svg';
 import StarSolidIcon from '@/assets/icons/star_solid.svg';
 import Button from '@/components/elements/Button';
+import Modal from '@/components/elements/Modal';
 import Text from '@/components/elements/Text';
+import {
+  EditProfileForm
+} from '@/components/parts/Home'
+import type { EditProfileContactForm } from '@/components/parts/Home/EditProfileForm/types';
 import { FAVORITE_ID } from '@/constans/storageKey';
 import { useContacts } from '@/contexts/contacts';
 import { DELETE_CONTACT_BY_PK_QUERY } from '@/queries/contacts';
@@ -32,8 +37,14 @@ const ContactItem: React.FC<ContactItemProps> = ({
 }) => {
   const contactsCtx = useContacts();
 
+  const [isOpenModal, setIsOpenModal] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isShowButtonActions, setIsShowButtonActions] = useState(false);
+  const [contactData, setContactData] = useState({
+    firstName,
+    lastName,
+    phones
+  });
 
   const [mutateFunction, { loading: loadingDelete }] = useMutation(DELETE_CONTACT_BY_PK_QUERY);
 
@@ -76,64 +87,96 @@ const ContactItem: React.FC<ContactItemProps> = ({
     (onSuccessToggleFavorite && onSuccessToggleFavorite(newFavoriteIds));
   }, [isFavorite, onSuccessToggleFavorite, contactsCtx, id]);
 
+  const handleEditContact = useCallback(() => {
+    setIsOpenModal(true);
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setIsOpenModal(false);
+  }, []);
+
+  const handleSuccessUpdateProfile = useCallback((newData: EditProfileContactForm) => {
+    setContactData((prev) => ({
+      ...prev,
+      ...newData
+    }));
+    setIsOpenModal(false);
+  }, []);
+
   return (
-    <ContactContainer
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      <div>
-        <Text fontWeight="medium">
-          {firstName} {lastName}
-        </Text>
+    <>
+      <ContactContainer
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <div>
+          <Text fontWeight="medium">
+            {contactData.firstName} {contactData.lastName}
+          </Text>
 
-        <PhonesContainer>
-          <Text color="gray">Phone number</Text>
+          <PhonesContainer>
+            <Text color="gray">Phone number</Text>
 
-          <PhoneListContainer>
-            {phones.map((phone, index) => (
-              <Text
-                key={`${index}-${phone}`}
-                as="li"
-                color="gray"
+            <PhoneListContainer>
+              {contactData.phones.map((phone, index) => (
+                <Text
+                  key={`${index}-${phone}`}
+                  as="li"
+                  color="gray"
+                >
+                  {phone.number}
+                </Text>
+              ))}
+            </PhoneListContainer>
+          </PhonesContainer>
+
+        </div>
+
+        <ActionsContainer>
+          <FavoriteButton
+            title={`${isFavorite ? 'Unfavorite' : 'Favorite'} ${contactData.firstName} ${contactData.lastName}`}
+            onClick={toggleFavorite}
+            $isFavorite={isFavorite}
+          >
+            {isFavorite ? <StarSolidIcon /> : <StarIcon />}
+          </FavoriteButton>
+
+          {isShowButtonActions ? (
+            <ActionsButtonContainer>
+              <Button
+                variant="outline"
+                color="warning"
+                disabled={loadingDelete}
+                onClick={handleEditContact}
               >
-                {phone.number}
-              </Text>
-            ))}
-          </PhoneListContainer>
-        </PhonesContainer>
+                Edit
+              </Button>
+              <Button
+                variant="outline"
+                color="error"
+                onClick={hadleDeleteContact}
+                isLoading={loadingDelete}
+              >
+                Delete
+              </Button>
+            </ActionsButtonContainer>
+          ) : null}
+        </ActionsContainer>
+      </ContactContainer>
 
-      </div>
-
-      <ActionsContainer>
-        <FavoriteButton
-          title={`${isFavorite ? 'Unfavorite' : 'Favorite'} ${firstName} ${lastName}`}
-          onClick={toggleFavorite}
-          $isFavorite={isFavorite}
-        >
-          {isFavorite ? <StarSolidIcon /> : <StarIcon />}
-        </FavoriteButton>
-
-        {isShowButtonActions ? (
-          <ActionsButtonContainer>
-            <Button
-              variant="outline"
-              color="warning"
-              disabled={loadingDelete}
-            >
-              Edit
-            </Button>
-            <Button
-              variant="outline"
-              color="error"
-              onClick={hadleDeleteContact}
-              isLoading={loadingDelete}
-            >
-              Delete
-            </Button>
-          </ActionsButtonContainer>
-        ) : null}
-      </ActionsContainer>
-    </ContactContainer>
+      <Modal
+        isOpen={isOpenModal}
+        title="Edit Contact"
+        onClose={handleCloseModal}
+      >
+        <EditProfileForm
+          id={id}
+          firstName={contactData.firstName}
+          lastName={contactData.lastName}
+          onSuccess={handleSuccessUpdateProfile}
+        />
+      </Modal>
+    </>
   );
 };
 

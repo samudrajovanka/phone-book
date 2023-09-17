@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { InputGroupStyle, ErrorLabel } from './styles';
 import { InputGroupProps } from './types';
+import Text from '../Text';
 
 const InputGroup: React.FC<InputGroupProps> = ({
   children,
@@ -15,9 +16,9 @@ const InputGroup: React.FC<InputGroupProps> = ({
   return (
     <InputGroupStyle $isBlock={props.isBlock}>
       {label ? (
-        <label htmlFor={id}>
+        <Text as="label" htmlFor={id} typography="sm">
           {label}
-        </label>
+        </Text>
       ) : null}
 
       {children}

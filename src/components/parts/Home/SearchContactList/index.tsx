@@ -46,7 +46,7 @@ const SearchContactList = () => {
 
   return (
     <div>
-      <Text fontWeight="medium">Contacts</Text>
+      <Text as="h2" fontWeight="medium">Contacts</Text>
 
       <ContactListContainer>
         {searchContactCtx.isSearching ? (

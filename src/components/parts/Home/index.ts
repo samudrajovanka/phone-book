@@ -6,3 +6,4 @@ export { default as SearchContactList } from './SearchContactList';
 export { default as ContactList } from './ContactList';
 export { default as ContactItem } from './ContactItem';
 export { default as SkeletonContact } from './SkeletonContact';
+export { default as EditProfileForm } from './EditProfileForm';

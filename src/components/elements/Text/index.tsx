@@ -9,7 +9,8 @@ const Text: React.FC<TextProps> = ({
   color = 'black',
   fontWeight = 'normal',
   typography = 'md',
-  className
+  className,
+  ...props
 }) => {
   return (
     <TextStyle
@@ -18,6 +19,7 @@ const Text: React.FC<TextProps> = ({
       $color={color}
       $fontWeight={fontWeight}
       $typography={typography}
+      {...props}
     >
       {children}
     </TextStyle>

@@ -83,7 +83,7 @@ const RegularContactList = () => {
 
   return (
     <div ref={regularContactsRef}>
-      <Text fontWeight="medium">Regular Contact</Text>
+      <Text as="h2" fontWeight="medium">Regular Contact</Text>
 
       <ContactListContainer>
         {contactsCtx.regularContacts.loading && contactsCtx.regularContacts.fetchCount === 0 ? (
