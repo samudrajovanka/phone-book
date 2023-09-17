@@ -17,6 +17,12 @@ export const ContactContainer = styled.div`
   &:hover {
     box-shadow: 0px 10px 15px 0 rgb(225 225 225 / 50%);
   }
+
+  @media (max-width: 500px) {
+    &:hover {
+      border: 1px solid var(--color-primary);
+    }
+  }
 `;
 
 export const PhonesContainer = styled.div`
@@ -39,6 +45,22 @@ export const ActionsContainer = styled.div`
 export const ActionsButtonContainer = styled.div`
   display: flex;
   gap: 4px;
+
+  @media (max-width: 500px) {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #FFFFFF;
+    padding: 16px;
+    box-shadow: 0px -10px 15px 0 rgb(225 225 225 / 50%);
+    border-radius: 8px;
+
+    > button {
+      width: 100%;
+    }
+  }
+
 `;
 
 export const FavoriteButton = styled.button<FavoriteButtonProps>`
