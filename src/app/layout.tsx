@@ -11,7 +11,14 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Phone Book',
   description: 'Phone Book',
-}
+  applicationName: 'Phone Book',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default'
+  },
+  manifest: '/manifest.json',
+  viewport: 'width=device-width, initial-scale=1, viewport-fit=cover',
+};
 
 export default function RootLayout({
   children,
