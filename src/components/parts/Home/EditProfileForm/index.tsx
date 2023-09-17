@@ -83,7 +83,10 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
       onCompleted: async () => {
         toast.success('Contact profile successfully updated');
 
-        {onSuccess && onSuccess(data)}
+        {onSuccess && onSuccess({
+          firstName: data.firstName.trim(),
+          lastName: data.lastName.trim()
+        })}
       },
       onError: (error) => {
         console.error(error);
